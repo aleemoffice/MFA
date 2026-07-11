@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sensitivity Lab</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- D3.js -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Sensitivity Lab</h1>
+  </header>
+
+  <nav class="tabs">
+    <button data-sensitivity-tab="drivers">Drivers</button>
+    <button data-sensitivity-tab="matrix">Matrix</button>
+    <button data-sensitivity-tab="charts">Charts</button>
+    <button data-sensitivity-tab="ve">VE</button>
+    <button data-sensitivity-tab="montecarlo">Monte Carlo</button>
+    <button data-sensitivity-tab="recommendations">Recommendations</button>
+  </nav>
+
+  <main>
+    <section data-sensitivity-panel="drivers">
+      <h2>Driver Sensitivities</h2>
+      <div id="driversOutput"></div>
+    </section>
+
+    <section data-sensitivity-panel="matrix">
+      <h2>Sensitivity Matrix</h2>
+      <div id="matrixOutput"></div>
+    </section>
+
+    <section data-sensitivity-panel="charts">
+      <h2>Charts</h2>
+
+      <canvas id="tornadoCanvas"></canvas>
+      <canvas id="npvCanvas"></canvas>
+      <canvas id="irrCanvas"></canvas>
+      <canvas id="paybackCanvas"></canvas>
+
+      <div id="spiderContainer"></div>
+      <div id="heatmapContainer"></div>
+    </section>
+
+    <section data-sensitivity-panel="ve">
+      <h2>Value Engineering</h2>
+      <div id="veOutput"></div>
+    </section>
+
+    <section data-sensitivity-panel="montecarlo">
+      <h2>Monte Carlo Simulation</h2>
+      <div id="mcOutput"></div>
+    </section>
+
+    <section data-sensitivity-panel="recommendations">
+      <h2>Consultant‑Grade Recommendations</h2>
+      <div id="recoOutput"></div>
+    </section>
+  </main>
+
+  <script type="module" src="ui.js"></script>
+</body>
+</html>

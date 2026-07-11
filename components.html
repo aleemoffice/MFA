@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Components</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html" class="active">Components</a>
+      <a href="boq.html">BOQ</a>
+      <a href="owner-tenant.html">Owner/Tenant</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="ve.html">VE</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE TITLE -->
+  <header class="page-header">
+    <h1>Components</h1>
+    <button class="primary-btn" onclick="openAddModal()">Add Component</button>
+  </header>
+
+  <!-- COMPONENT LIST -->
+  <section class="component-list" id="componentList"></section>
+
+  <!-- ADD COMPONENT MODAL -->
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <h2>Add Component</h2>
+
+      <label>Type</label>
+      <select id="addType">
+        <option>Retail Shop</option>
+        <option>Restaurant</option>
+        <option>Cinema</option>
+        <option>Corridor</option>
+        <option>Parking</option>
+        <option>Mosque</option>
+      </select>
+
+      <label>Width (m)</label>
+      <input id="addW" type="number" value="10">
+
+      <label>Length (m)</label>
+      <input id="addL" type="number" value="12">
+
+      <label>Spec</label>
+      <select id="addSpec">
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+
+      <button class="primary-btn" onclick="saveComponent()">Save</button>
+      <button class="secondary-btn" onclick="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- EDIT COMPONENT MODAL -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <h2>Edit Component</h2>
+
+      <label>Type</label>
+      <select id="editType"></select>
+
+      <label>Width (m)</label>
+      <input id="editW" type="number">
+
+      <label>Length (m)</label>
+      <input id="editL" type="number">
+
+      <label>Spec</label>
+      <select id="editSpec">
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+
+      <button class="primary-btn" onclick="updateComponent()">Update</button>
+      <button class="secondary-btn" onclick="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { run } from "./ui.js";
+
+    let components = [];
+    let editIndex = null;
+
+    // ---------------------------------------------------------
+    // RENDER COMPONENT LIST
+    // ---------------------------------------------------------
+    function renderComponents() {
+      const container = document.getElementById("componentList");
+      container.innerHTML = "";
+
+      components.forEach((c, i) => {
+        const card = document.createElement("div");
+        card.className = "component-card";
+
+        card.innerHTML = `
+          <h3>${c.type}</h3>
+          <p>${c.W}m × ${c.L}m</p>
+          <p>Spec: ${c.spec}</p>
+
+          <div class="card-actions">
+            <button onclick="run(components[${i}])">Run</button>
+            <button onclick="openEditModal(${i})">Edit</button>
+            <button onclick="deleteComponent(${i})">Delete</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // ---------------------------------------------------------
+    // ADD COMPONENT
+    // ---------------------------------------------------------
+    window.openAddModal = function() {
+      document.getElementById("addModal").style.display = "flex";
+    };
+
+    window.closeAddModal = function() {
+      document.getElementById("addModal").style.display = "none";
+    };
+
+    window.saveComponent = function() {
+      const c = {
+        type: document.getElementById("addType").value,
+        W: Number(document.getElementById("addW").value),
+        L: Number(document.getElementById("addL").value),
+        spec: document.getElementById("addSpec").value,
+        occupancy: 1.5,
+        exits: 1,
+        egressWidth: 1200,
+        travelDistance: 30,
+        freshAir: true,
+        greaseTrap: false,
+        sprinklers: true,
+        firePump: true,
+        fireAlarm: true
+      };
+
+      components.push(c);
+      closeAddModal();
+      renderComponents();
+    };
+
+    // ---------------------------------------------------------
+    // EDIT COMPONENT
+    // ---------------------------------------------------------
+    window.openEditModal = function(i) {
+      editIndex = i;
+      const c = components[i];
+
+      document.getElementById("editType").value = c.type;
+      document.getElementById("editW").value = c.W;
+      document.getElementById("editL").value = c.L;
+      document.getElementById("editSpec").value = c.spec;
+
+      document.getElementById("editModal").style.display = "flex";
+    };
+
+    window.closeEditModal = function() {
+      document.getElementById("editModal").style.display = "none";
+    };
+
+    window.updateComponent = function() {
+      const c = components[editIndex];
+
+      c.type = document.getElementById("editType").value;
+      c.W = Number(document.getElementById("editW").value);
+      c.L = Number(document.getElementById("editL").value);
+      c.spec = document.getElementById("editSpec").value;
+
+      closeEditModal();
+      renderComponents();
+    };
+
+    // ---------------------------------------------------------
+    // DELETE COMPONENT
+    // ---------------------------------------------------------
+    window.deleteComponent = function(i) {
+      components.splice(i, 1);
+      renderComponents();
+    };
+
+    // Initial render
+    renderComponents();
+  </script>
+
+</body>
+</html>

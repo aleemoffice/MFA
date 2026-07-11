@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Owner vs Tenant</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html">Components</a>
+      <a href="boq.html">BOQ</a>
+      <a href="owner-tenant.html" class="active">Owner/Tenant</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="ve.html">VE</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Owner vs Tenant Scope</h1>
+  </header>
+
+  <!-- SPLIT VIEW -->
+  <section class="split-container">
+
+    <!-- OWNER COLUMN -->
+    <div class="split-column owner-column">
+      <h2>Owner Scope</h2>
+      <ul id="ownerList" class="scope-list"></ul>
+
+      <div class="metric-card">
+        <h3>Owner Total</h3>
+        <p id="ownerTotal">0 SAR</p>
+      </div>
+    </div>
+
+    <!-- TENANT COLUMN -->
+    <div class="split-column tenant-column">
+      <h2>Tenant Scope</h2>
+      <ul id="tenantList" class="scope-list"></ul>
+
+      <div class="metric-card">
+        <h3>Tenant Total</h3>
+        <p id="tenantTotal">0 SAR</p>
+      </div>
+    </div>
+
+  </section>
+
+  <script type="module">
+    import { runComponent } from "./engine.run.js";
+
+    let ownerBOQ = [];
+    let tenantBOQ = [];
+
+    // Called by ui.js after run()
+    window.updateOwnerTenant = function(result) {
+      ownerBOQ = result.ownerBOQ;
+      tenantBOQ = result.tenantBOQ;
+
+      renderOwner();
+      renderTenant();
+      updateTotals();
+    };
+
+    // ---------------------------------------------------------
+    // RENDER OWNER LIST
+    // ---------------------------------------------------------
+    function renderOwner() {
+      const list = document.getElementById("ownerList");
+      list.innerHTML = "";
+
+      ownerBOQ.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${item.code}</strong> — ${item.desc}
+          <span class="amount">${item.total.toLocaleString()} SAR</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    // ---------------------------------------------------------
+    // RENDER TENANT LIST
+    // ---------------------------------------------------------
+    function renderTenant() {
+      const list = document.getElementById("tenantList");
+      list.innerHTML = "";
+
+      tenantBOQ.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${item.code}</strong> — ${item.desc}
+          <span class="amount">${item.total.toLocaleString()} SAR</span>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    // ---------------------------------------------------------
+    // UPDATE TOTALS
+    // ---------------------------------------------------------
+    function updateTotals() {
+      const ownerTotal = ownerBOQ.reduce((s, i) => s + i.total, 0);
+      const tenantTotal = tenantBOQ.reduce((s, i) => s + i.total, 0);
+
+      document.getElementById("ownerTotal").innerText =
+        ownerTotal.toLocaleString() + " SAR";
+
+      document.getElementById("tenantTotal").innerText =
+        tenantTotal.toLocaleString() + " SAR";
+    }
+  </script>
+
+</body>
+</html>

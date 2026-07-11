@@ -1,0 +1,370 @@
+/* ===== Global ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fa;
+  color: #222;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  background: #1a73e8;
+  color: #fff;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.nav-links a {
+  color: #fff;
+  margin-left: 16px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.nav-links a.active {
+  text-decoration: underline;
+}
+
+/* ===== Page header ===== */
+.page-header {
+  padding: 20px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* ===== Dashboard grid ===== */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+
+/* ===== Cards ===== */
+.metric-card,
+.component-card,
+.settings-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.metric-card h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.metric-card p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Status card colors */
+.status-card.pass { background: #d4edda; }
+.status-card.risk { background: #fff3cd; }
+.status-card.fail { background: #f8d7da; }
+
+/* ===== Component runner / list ===== */
+.component-runner {
+  padding: 0 24px 24px;
+}
+
+.component-grid,
+.component-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.component-card h3 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+/* Card actions */
+.card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ===== Split views (Owner/Tenant) ===== */
+.split-container {
+  display: flex;
+  gap: 24px;
+  padding: 0 24px 24px;
+}
+
+.split-column {
+  flex: 1;
+}
+
+.scope-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.scope-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.scope-list .amount {
+  font-weight: 600;
+}
+
+/* ===== BOQ table ===== */
+.boq-section {
+  padding: 0 24px 12px;
+}
+
+.boq-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.boq-table th,
+.boq-table td {
+  padding: 8px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid #eee;
+}
+
+.boq-table th {
+  background: #f0f3f8;
+  text-align: left;
+  cursor: pointer;
+}
+
+.boq-totals {
+  padding: 0 24px 24px;
+}
+
+/* ===== Compliance ===== */
+.compliance-section {
+  padding: 0 24px 12px;
+}
+
+.compliance-badge {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.compliance-badge h2 {
+  margin: 0 0 4px;
+}
+
+.compliance-badge.pass { background: #d4edda; }
+.compliance-badge.risk { background: #fff3cd; }
+.compliance-badge.fail { background: #f8d7da; }
+
+.violations-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+
+.violations-group {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.violations-group h3 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+/* ===== VE ===== */
+.ve-summary {
+  display: flex;
+  gap: 16px;
+  padding: 0 24px 12px;
+}
+
+.ve-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+
+.ve-group {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.ve-group h2 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.ve-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ve-group li {
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+/* ===== Settings ===== */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+
+.settings-card h2 {
+  margin-top: 0;
+  font-size: 15px;
+}
+
+.settings-card label {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.settings-card input,
+.settings-card select {
+  width: 100%;
+  margin-top: 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+/* ===== Buttons ===== */
+button,
+.primary-btn,
+.secondary-btn,
+.danger-btn {
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+button,
+.primary-btn {
+  background: #1a73e8;
+  color: #fff;
+}
+
+.secondary-btn {
+  background: #e0e3eb;
+  color: #222;
+}
+
+.danger-btn {
+  background: #d93025;
+  color: #fff;
+}
+
+/* ===== Modals ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+/* ===== Charts ===== */
+.chart-card canvas,
+#ownerTenantChart {
+  width: 100% !important;
+  height: 180px !important;
+}
+
+/* ===== Responsive tweaks ===== */
+@media (max-width: 1024px) {
+  .dashboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .violations-container,
+  .ve-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .split-container {
+    flex-direction: column;
+  }
+
+  .violations-container,
+  .ve-container,
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .component-grid,
+  .component-list {
+    flex-direction: column;
+  }
+}

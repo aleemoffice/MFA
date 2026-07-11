@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BOQ Viewer</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html">Components</a>
+      <a href="boq.html" class="active">BOQ</a>
+      <a href="owner-tenant.html">Owner/Tenant</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="ve.html">VE</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Bill of Quantities (BOQ)</h1>
+    <div class="boq-filters">
+      <button class="secondary-btn" onclick="filterBOQ('all')">All</button>
+      <button class="secondary-btn" onclick="filterBOQ('owner')">Owner</button>
+      <button class="secondary-btn" onclick="filterBOQ('tenant')">Tenant</button>
+    </div>
+  </header>
+
+  <!-- BOQ TABLE -->
+  <section class="boq-section">
+    <table class="boq-table">
+      <thead>
+        <tr>
+          <th onclick="sortBOQ('code')">CSI Code</th>
+          <th>Description</th>
+          <th onclick="sortBOQ('unit')">Unit</th>
+          <th onclick="sortBOQ('qty')">Qty</th>
+          <th onclick="sortBOQ('rate')">Rate</th>
+          <th onclick="sortBOQ('total')">Total</th>
+        </tr>
+      </thead>
+      <tbody id="boqBody"></tbody>
+    </table>
+  </section>
+
+  <!-- TOTALS -->
+  <section class="boq-totals">
+    <div class="metric-card">
+      <h3>Total CAPEX</h3>
+      <p id="boqTotal">0 SAR</p>
+    </div>
+  </section>
+
+  <script type="module">
+    import { runComponent } from "./engine.run.js";
+
+    let fullBOQ = [];
+    let ownerBOQ = [];
+    let tenantBOQ = [];
+    let currentView = "all";
+
+    // Called by ui.js after run()
+    window.updateBOQ = function(result) {
+      fullBOQ = result.boq;
+      ownerBOQ = result.ownerBOQ;
+      tenantBOQ = result.tenantBOQ;
+
+      renderBOQ(fullBOQ);
+      updateTotal(fullBOQ);
+    };
+
+    // ---------------------------------------------------------
+    // RENDER BOQ TABLE
+    // ---------------------------------------------------------
+    function renderBOQ(list) {
+      const tbody = document.getElementById("boqBody");
+      tbody.innerHTML = "";
+
+      list.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.code}</td>
+          <td>${item.desc}</td>
+          <td>${item.unit}</td>
+          <td>${item.qty}</td>
+          <td>${item.rate}</td>
+          <td>${item.total.toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // ---------------------------------------------------------
+    // FILTER BOQ
+    // ---------------------------------------------------------
+    window.filterBOQ = function(type) {
+      currentView = type;
+
+      if (type === "all") {
+        renderBOQ(fullBOQ);
+        updateTotal(fullBOQ);
+      }
+      if (type === "owner") {
+        renderBOQ(ownerBOQ);
+        updateTotal(ownerBOQ);
+      }
+      if (type === "tenant") {
+        renderBOQ(tenantBOQ);
+        updateTotal(tenantBOQ);
+      }
+    };
+
+    // ---------------------------------------------------------
+    // SORT BOQ
+    // ---------------------------------------------------------
+    window.sortBOQ = function(key) {
+      let list =
+        currentView === "all"
+          ? fullBOQ
+          : currentView === "owner"
+          ? ownerBOQ
+          : tenantBOQ;
+
+      list.sort((a, b) => {
+        if (typeof a[key] === "string") {
+          return a[key].localeCompare(b[key]);
+        }
+        return a[key] - b[key];
+      });
+
+      renderBOQ(list);
+    };
+
+    // ---------------------------------------------------------
+    // UPDATE TOTAL
+    // ---------------------------------------------------------
+    function updateTotal(list) {
+      const total = list.reduce((s, i) => s + i.total, 0);
+      document.getElementById("boqTotal").innerText =
+        total.toLocaleString() + " SAR";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+/POLISHED
+│
+├── index.html
+├── components.html
+├── boq.html
+├── owner-tenant.html
+├── compliance.html
+├── ve.html
+├── settings.html
+│
+├── style.css
+├── ui.js
+│
+├── ui/
+│   ├── ui.dashboard.js
+│   ├── ui.components.js
+│   ├── ui.boq.js
+│   ├── ui.ownerTenant.js
+│   ├── ui.compliance.js
+│   ├── ui.ve.js
+│   ├── ui.settings.js
+│   └── ui.common.js
+│
+├── engine/
+│   ├── engine.run.js
+│   ├── engine.model.js
+│   ├── engine.code.js
+│   ├── engine.ve.js
+│   ├── engine.cgi.js
+│   ├── engine.materials.js
+│   ├── engine.responsibility.js
+│
+│   ├── eng/
+│   │   ├── engine.eng.hvac.js
+│   │   ├── engine.eng.electrical.js
+│   │   ├── engine.eng.plumbing.js
+│   │   ├── engine.eng.fire.js
+│   │   ├── engine.eng.lifesafety.js
+│   │   ├── engine.eng.structural.js
+│   │   └── engine.eng.civil.js
+│
+├── csi/
+│   ├── division00.js
+│   ├── division01.js
+│   ├── division02.js
+│   ├── division03.js
+│   ├── ...
+│   ├── division33.js
+│   └── index.js
+│
+└── assets/
+    ├── logo.png
+    ├── loading.gif
+    └── icons/
+
+
+
+
+------------------------
+/POLISHED
+│
+├── index.html
+├── components.html
+├── boq.html
+├── owner-tenant.html
+├── compliance.html
+├── ve.html
+├── settings.html
+│
+├── style.css
+├── ui.js                ← global wiring layer
+│
+├── ui/                  ← page-specific UI logic
+│   ├── ui.dashboard.js
+│   ├── ui.components.js
+│   ├── ui.boq.js
+│   ├── ui.ownerTenant.js
+│   ├── ui.compliance.js
+│   ├── ui.ve.js
+│   ├── ui.settings.js
+│   └── ui.common.js     ← shared UI helpers
+│
+├── engine/              ← all backend logic
+│   ├── engine.run.js
+│   ├── engine.model.js
+│   ├── engine.code.js
+│   ├── engine.cgi.js
+│   ├── engine.ve.js
+│   ├── engine.materials.js
+│   ├── engine.responsibility.js
+│
+│   ├── eng/             ← engineering subsystems
+│   │   ├── engine.eng.hvac.js
+│   │   ├── engine.eng.electrical.js
+│   │   ├── engine.eng.plumbing.js
+│   │   ├── engine.eng.fire.js
+│   │   ├── engine.eng.lifesafety.js
+│   │   ├── engine.eng.structural.js
+│   │   └── engine.eng.civil.js
+│
+├── csi/                 ← CSI MasterFormat database
+│   ├── division00.js
+│   ├── division01.js
+│   ├── division02.js
+│   ├── division03.js
+│   ├── ...
+│   ├── division33.js
+│   └── index.js         ← merges all divisions
+│
+└── assets/
+    ├── logo.png
+    ├── loading.gif
+    └── icons/
+_________________
+
+POLISHED/
+│
+├── index.html
+├── components.html
+├── boq.html
+├── owner-tenant.html
+├── compliance.html
+├── ve.html
+├── settings.html
+│
+├── style.css
+├── ui.js
+│
+├── ui/
+│   ├── ui.dashboard.js
+│   ├── ui.components.js
+│   ├── ui.boq.js
+│   ├── ui.ownerTenant.js
+│   ├── ui.compliance.js
+│   ├── ui.ve.js
+│   ├── ui.settings.js
+│   └── ui.common.js
+│
+├── engine/
+│   ├── engine.run.js
+│   ├── engine.model.js
+│   ├── engine.codes.js
+│   ├── engine.csi.js
+│   ├── engine.materials.js
+│   ├── engine.responsibility.js
+│   └── eng/
+│       ├── engine.eng.hvac.js
+│       ├── engine.eng.electrical.js
+│       ├── engine.eng.plumbing.js
+│       ├── engine.eng.fire.js
+│       ├── engine.eng.lifesafety.js
+│       ├── engine.eng.structural.js
+│       └── engine.eng.civil.js
+│
+└── csi/
+    ├── division00.js
+    ├── division01.js
+    ├── ...
+    ├── division33.js
+    └── index.js
+
+

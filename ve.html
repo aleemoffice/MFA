@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Value Engineering</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html">Components</a>
+      <a href="boq.html">BOQ</a>
+      <a href="owner-tenant.html">Owner/Tenant</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="ve.html" class="active">VE</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Value Engineering</h1>
+  </header>
+
+  <!-- VE SUMMARY -->
+  <section class="ve-summary">
+    <div class="metric-card">
+      <h3>Total VE CAPEX Impact</h3>
+      <p id="veCapexImpact">0 SAR</p>
+    </div>
+
+    <div class="metric-card">
+      <h3>Total VE OPEX Impact</h3>
+      <p id="veOpexImpact">0 SAR</p>
+    </div>
+  </section>
+
+  <!-- VE SUGGESTIONS -->
+  <section class="ve-container">
+
+    <div class="ve-group">
+      <h2>Material Swaps</h2>
+      <ul id="veMaterialList"></ul>
+    </div>
+
+    <div class="ve-group">
+      <h2>System Swaps</h2>
+      <ul id="veSystemList"></ul>
+    </div>
+
+    <div class="ve-group">
+      <h2>Scope Shifts</h2>
+      <ul id="veScopeList"></ul>
+    </div>
+
+    <div class="ve-group">
+      <h2>Code‑Driven VE</h2>
+      <ul id="veCodeList"></ul>
+    </div>
+
+  </section>
+
+  <script type="module">
+    import { runComponent } from "./engine.run.js";
+
+    let veSuggestions = [];
+    let veImpact = null;
+
+    // Called by ui.js after run()
+    window.updateVE = function(result) {
+      veSuggestions = result.veSuggestions;
+      veImpact = result.veImpact;
+
+      updateImpact();
+      renderVE();
+    };
+
+    // ---------------------------------------------------------
+    // UPDATE TOTAL IMPACT
+    // ---------------------------------------------------------
+    function updateImpact() {
+      document.getElementById("veCapexImpact").innerText =
+        veImpact.capexDeltaPct.toFixed(2) + "%";
+
+      document.getElementById("veOpexImpact").innerText =
+        veImpact.opexDeltaPct.toFixed(2) + "%";
+    }
+
+    // ---------------------------------------------------------
+    // RENDER VE SUGGESTIONS BY CATEGORY
+    // ---------------------------------------------------------
+    function renderVE() {
+      const materialList = document.getElementById("veMaterialList");
+      const systemList = document.getElementById("veSystemList");
+      const scopeList = document.getElementById("veScopeList");
+      const codeList = document.getElementById("veCodeList");
+
+      materialList.innerHTML = "";
+      systemList.innerHTML = "";
+      scopeList.innerHTML = "";
+      codeList.innerHTML = "";
+
+      veSuggestions.forEach(s => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${s.msg}</strong><br>
+          CAPEX: ${s.capexDeltaPct || 0}%<br>
+          OPEX: ${s.opexDeltaPct || 0}%
+        `;
+
+        if (s.id.startsWith("RET") || s.id.startsWith("REST") || s.id.startsWith("CIN"))
+          materialList.appendChild(li);
+
+        else if (s.id.startsWith("HVAC") || s.id.startsWith("LIGHTING"))
+          systemList.appendChild(li);
+
+        else if (s.id.startsWith("SCOPE"))
+          scopeList.appendChild(li);
+
+        else if (s.id.startsWith("VE-"))
+          codeList.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html">Components</a>
+      <a href="boq.html">BOQ</a>
+      <a href="owner-tenant.html">Owner/Tenant</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="ve.html">VE</a>
+      <a href="settings.html" class="active">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Project Settings</h1>
+  </header>
+
+  <!-- SETTINGS GRID -->
+  <section class="settings-grid">
+
+    <!-- PROJECT INFO -->
+    <div class="settings-card">
+      <h2>Project Information</h2>
+
+      <label>Project Name</label>
+      <input id="projectName" type="text" value="Al Kawther Mall">
+
+      <label>Client</label>
+      <input id="projectClient" type="text" value="Confidential">
+
+      <label>Location</label>
+      <input id="projectLocation" type="text" value="Makkah, Saudi Arabia">
+    </div>
+
+    <!-- CURRENCY -->
+    <div class="settings-card">
+      <h2>Currency</h2>
+
+      <select id="currencySelect">
+        <option value="SAR">SAR (Saudi Riyal)</option>
+        <option value="USD">USD (US Dollar)</option>
+        <option value="EUR">EUR (Euro)</option>
+      </select>
+    </div>
+
+    <!-- UNITS -->
+    <div class="settings-card">
+      <h2>Units</h2>
+
+      <select id="unitSelect">
+        <option value="metric">Metric (m, m², m³)</option>
+        <option value="imperial">Imperial (ft, ft², ft³)</option>
+      </select>
+    </div>
+
+    <!-- DEFAULT SPECS -->
+    <div class="settings-card">
+      <h2>Default Specs</h2>
+
+      <label>Retail Spec</label>
+      <select id="defaultRetailSpec">
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+
+      <label>Restaurant Spec</label>
+      <select id="defaultRestaurantSpec">
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+
+      <label>Cinema Spec</label>
+      <select id="defaultCinemaSpec">
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+    </div>
+
+    <!-- SAVE / LOAD -->
+    <div class="settings-card">
+      <h2>Save / Load Project</h2>
+
+      <button class="primary-btn" onclick="saveProject()">Save Project JSON</button>
+      <input type="file" id="loadFile" onchange="loadProject(event)">
+    </div>
+
+    <!-- RESET -->
+    <div class="settings-card">
+      <h2>Reset Platform</h2>
+      <button class="danger-btn" onclick="resetPlatform()">Reset All Data</button>
+    </div>
+
+  </section>
+
+  <script type="module">
+    // ---------------------------------------------------------
+    // SAVE PROJECT JSON
+    // ---------------------------------------------------------
+    window.saveProject = function() {
+      const data = {
+        name: document.getElementById("projectName").value,
+        client: document.getElementById("projectClient").value,
+        location: document.getElementById("projectLocation").value,
+        currency: document.getElementById("currencySelect").value,
+        units: document.getElementById("unitSelect").value,
+        defaults: {
+          retail: document.getElementById("defaultRetailSpec").value,
+          restaurant: document.getElementById("defaultRestaurantSpec").value,
+          cinema: document.getElementById("defaultCinemaSpec").value
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], {
+        type: "application/json"
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "project-settings.json";
+      a.click();
+    };
+
+    // ---------------------------------------------------------
+    // LOAD PROJECT JSON
+    // ---------------------------------------------------------
+    window.loadProject = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = JSON.parse(e.target.result);
+
+        document.getElementById("projectName").value = data.name;
+        document.getElementById("projectClient").value = data.client;
+        document.getElementById("projectLocation").value = data.location;
+
+        document.getElementById("currencySelect").value = data.currency;
+        document.getElementById("unitSelect").value = data.units;
+
+        document.getElementById("defaultRetailSpec").value = data.defaults.retail;
+        document.getElementById("defaultRestaurantSpec").value = data.defaults.restaurant;
+        document.getElementById("defaultCinemaSpec").value = data.defaults.cinema;
+      };
+
+      reader.readAsText(file);
+    };
+
+    // ---------------------------------------------------------
+    // RESET PLATFORM
+    // ---------------------------------------------------------
+    window.resetPlatform = function() {
+      localStorage.clear();
+      alert("Platform reset. Reload the page.");
+      location.reload();
+    };
+  </script>
+
+</body>
+</html>

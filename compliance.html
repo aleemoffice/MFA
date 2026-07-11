@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Compliance</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="ui.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-title">Feasibility Platform</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="components.html">Components</a>
+      <a href="boq.html">BOQ</a>
+      <a href="owner-tenant.html">Owner/Tenant</a>
+      <a href="compliance.html" class="active">Compliance</a>
+      <a href="ve.html">VE</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Code Compliance</h1>
+  </header>
+
+  <!-- COMPLIANCE BADGE -->
+  <section class="compliance-section">
+    <div class="compliance-badge" id="badge">
+      <h2 id="status">—</h2>
+      <p id="score">0%</p>
+    </div>
+  </section>
+
+  <!-- VIOLATIONS GROUPED -->
+  <section class="violations-container">
+
+    <div class="violations-group">
+      <h3>Balady</h3>
+      <ul id="baladyList"></ul>
+    </div>
+
+    <div class="violations-group">
+      <h3>SBC</h3>
+      <ul id="sbcList"></ul>
+    </div>
+
+    <div class="violations-group">
+      <h3>MOMRAH</h3>
+      <ul id="momrahList"></ul>
+    </div>
+
+    <div class="violations-group">
+      <h3>Civil Defense</h3>
+      <ul id="cdList"></ul>
+    </div>
+
+  </section>
+
+  <script type="module">
+    import { runComponent } from "./engine.run.js";
+
+    let compliance = null;
+
+    // Called by ui.js after run()
+    window.updateCompliance = function(result) {
+      compliance = result.codeCompliance;
+
+      updateBadge();
+      renderViolations();
+    };
+
+    // ---------------------------------------------------------
+    // UPDATE BADGE
+    // ---------------------------------------------------------
+    function updateBadge() {
+      const badge = document.getElementById("badge");
+      const status = document.getElementById("status");
+      const score = document.getElementById("score");
+
+      status.innerText = compliance.status;
+      score.innerText = compliance.score + "%";
+
+      badge.classList.remove("pass", "risk", "fail");
+
+      if (compliance.status === "PASS") badge.classList.add("pass");
+      if (compliance.status === "AT RISK") badge.classList.add("risk");
+      if (compliance.status === "FAIL") badge.classList.add("fail");
+    }
+
+    // ---------------------------------------------------------
+    // RENDER VIOLATIONS BY GROUP
+    // ---------------------------------------------------------
+    function renderViolations() {
+      const balady = document.getElementById("baladyList");
+      const sbc = document.getElementById("sbcList");
+      const momrah = document.getElementById("momrahList");
+      const cd = document.getElementById("cdList");
+
+      balady.innerHTML = "";
+      sbc.innerHTML = "";
+      momrah.innerHTML = "";
+      cd.innerHTML = "";
+
+      compliance.issues.forEach(issue => {
+        const li = document.createElement("li");
+        li.innerText = issue.msg;
+
+        if (issue.code.startsWith("BALADY")) balady.appendChild(li);
+        if (issue.code.startsWith("SBC")) sbc.appendChild(li);
+        if (issue.code.startsWith("MOMRAH")) momrah.appendChild(li);
+        if (issue.code.startsWith("CD")) cd.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
