@@ -332,6 +332,11 @@ button,
   height: 180px !important;
 }
 
+/* ===== Sensitivity Lab ===== */
+[data-sensitivity-panel] {
+  display: none;
+}
+
 /* ===== Responsive tweaks ===== */
 @media (max-width: 1024px) {
   .dashboard {
