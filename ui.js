@@ -7,30 +7,61 @@ import { renderVEUI } from "./ui/ui.sensitivityVE.js";
 import { renderMonteCarloUI } from "./ui/ui.sensitivityMonteCarlo.js";
 import { renderRecommendationsUI } from "./ui/ui.sensitivityRecommendations.js";
 
-// 🚫 No baseModel import here
-// 🚫 No engine.baseModel.js usage
+// ENGINE IMPORTS
+import { buildBaseModel } from "./engine/engine.baseModel.js";
+import { buildDriverSensitivities } from "./engine/engine.sensitivityDrivers.js";
+import { buildSensitivityMatrix } from "./engine/engine.sensitivityMatrix.js";
+import { buildChartDatasets } from "./engine/engine.sensitivityCharts.js";
+import { buildVEScenarios } from "./engine/engine.sensitivityVE.js";
+import { runMonteCarlo } from "./engine/engine.monteCarlo.js";
+import { buildRecommendations } from "./engine/engine.recommendations.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("ui.js LOADED");
 
-  // Tabs must always work
+  // Initialize tab system
   initSensitivityTabs();
 
-  // For now, use simple stubs so nothing crashes
-  const baseModel = {};          // temporary placeholder
-  const drivers   = {};          // temporary placeholder
-  const matrix    = {};          // temporary placeholder
-  const charts    = {};          // temporary placeholder
-  const ve        = {};          // temporary placeholder
-  const mc        = {};          // temporary placeholder
+  // ============================================================
+  // 1. Build Base Model
+  // ============================================================
+  const baseModel = buildBaseModel();
+  console.log("[Engine] Base Model:", baseModel);
 
-  // These will render JSON stubs into each panel
-  renderDriversUI(baseModel);
-  renderMatrixUI(baseModel, drivers);
-  renderChartsUI(baseModel, drivers, matrix);
-  renderVEUI(baseModel);
-  renderMonteCarloUI(baseModel);
-  renderRecommendationsUI({
+  // ============================================================
+  // 2. Driver Sensitivities
+  // ============================================================
+  const drivers = buildDriverSensitivities(baseModel);
+  console.log("[Engine] Drivers:", drivers);
+
+  // ============================================================
+  // 3. Sensitivity Matrix
+  // ============================================================
+  const matrix = buildSensitivityMatrix(baseModel, drivers);
+  console.log("[Engine] Matrix:", matrix);
+
+  // ============================================================
+  // 4. Chart Datasets
+  // ============================================================
+  const charts = buildChartDatasets(baseModel, drivers, matrix);
+  console.log("[Engine] Charts:", charts);
+
+  // ============================================================
+  // 5. VE Scenarios
+  // ============================================================
+  const ve = buildVEScenarios(baseModel);
+  console.log("[Engine] VE Scenarios:", ve);
+
+  // ============================================================
+  // 6. Monte Carlo Simulation
+  // ============================================================
+  const mc = runMonteCarlo(baseModel);
+  console.log("[Engine] Monte Carlo:", mc);
+
+  // ============================================================
+  // 7. Recommendations
+  // ============================================================
+  const recs = buildRecommendations({
     baseModel,
     drivers,
     matrix,
@@ -38,5 +69,16 @@ window.addEventListener("DOMContentLoaded", () => {
     ve,
     mc
   });
+  console.log("[Engine] Recommendations:", recs);
+
+  // ============================================================
+  // 8. Render UI Panels
+  // ============================================================
+  renderDriversUI(drivers);
+  renderMatrixUI(matrix);
+  renderChartsUI(charts);
+  renderVEUI(ve);
+  renderMonteCarloUI(mc);
+  renderRecommendationsUI(recs);
 });
 
