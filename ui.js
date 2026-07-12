@@ -7,49 +7,24 @@ import { renderVEUI } from "./ui/ui.sensitivityVE.js";
 import { renderMonteCarloUI } from "./ui/ui.sensitivityMonteCarlo.js";
 import { renderRecommendationsUI } from "./ui/ui.sensitivityRecommendations.js";
 
-import { buildBaseModel } from "./engine/engine.baseModel.js";
-import { buildDriverSensitivities } from "./engine/engine.sensitivityDrivers.js";
-import { buildSensitivityMatrix } from "./engine/engine.sensitivityMatrix.js";
-import { buildChartDatasets } from "./engine/engine.sensitivityCharts.js";
-import { buildVEScenarios } from "./engine/engine.sensitivityVE.js";
-import { runMonteCarlo } from "./engine/engine.monteCarlo.js";
-import { buildRecommendations } from "./engine/engine.recommendations.js";
+// 🚫 No baseModel import here
+// 🚫 No engine.baseModel.js usage
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("ui.js LOADED");
 
-  // Initialize tabs
+  // Tabs must always work
   initSensitivityTabs();
 
-  // Build core model
-  const baseModel = buildBaseModel();
+  // For now, use simple stubs so nothing crashes
+  const baseModel = {};          // temporary placeholder
+  const drivers   = {};          // temporary placeholder
+  const matrix    = {};          // temporary placeholder
+  const charts    = {};          // temporary placeholder
+  const ve        = {};          // temporary placeholder
+  const mc        = {};          // temporary placeholder
 
-  // Build drivers
-  const drivers = buildDriverSensitivities(baseModel);
-
-  // Build matrix
-  const matrix = buildSensitivityMatrix(baseModel, drivers);
-
-  // Build charts
-  const charts = buildChartDatasets(baseModel, drivers, matrix);
-
-  // Build VE
-  const ve = buildVEScenarios(baseModel);
-
-  // Build Monte Carlo
-  const mc = runMonteCarlo(baseModel);
-
-  // Build recommendations
-  const recs = buildRecommendations({
-    baseModel,
-    drivers,
-    matrix,
-    charts,
-    ve,
-    mc
-  });
-
-  // Render UI panels
+  // These will render JSON stubs into each panel
   renderDriversUI(baseModel);
   renderMatrixUI(baseModel, drivers);
   renderChartsUI(baseModel, drivers, matrix);
@@ -64,3 +39,4 @@ window.addEventListener("DOMContentLoaded", () => {
     mc
   });
 });
+
