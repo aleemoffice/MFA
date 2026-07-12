@@ -1,17 +1,11 @@
-// ============================================================================
-//  MFA Sensitivity Lab — Professional Base Model Engine
-//  Author: Muhammad & Copilot
-//  Purpose: Provide a complete, structured financial base model for all engines
-// ============================================================================
-
 export function buildBaseModel() {
   // -----------------------------
   // 1. Revenue Inputs
   // -----------------------------
   const rent = {
-    monthly: 100000,        // base rent
+    monthly: 100000,
     annual: 100000 * 12,
-    growthRate: 0.03        // annual rent escalation
+    growthRate: 0.03
   };
 
   const otherIncome = {
@@ -25,8 +19,8 @@ export function buildBaseModel() {
   // 2. Vacancy & Credit Loss
   // -----------------------------
   const vacancy = {
-    physical: 0.05,         // 5% vacancy
-    creditLoss: 0.02        // 2% non-payment
+    physical: 0.05,
+    creditLoss: 0.02
   };
 
   // -----------------------------
@@ -35,7 +29,7 @@ export function buildBaseModel() {
   const expenses = {
     repairs: 15000,
     utilities: 8000,
-    management: 0.05,       // 5% of EGI
+    management: 0.05,
     insurance: 6000,
     taxes: 12000,
     admin: 4000,
@@ -43,34 +37,18 @@ export function buildBaseModel() {
   };
 
   // -----------------------------
-  // 4. CAPEX
+  // 4. CAPEX (single numeric value for sensitivity)
   // -----------------------------
-  const capex = {
-    reserve: 20000,
-    majorRepairs: 0,        // placeholder for VE scenarios
-    annual: 20000
-  };
+  const capex = 20000;   // <-- numeric, matches your engine
 
   // -----------------------------
-  // 5. Financing (Optional)
+  // 5. Technical Ratios (TR) & kVA
   // -----------------------------
-  const financing = {
-    loanAmount: 2000000,
-    interestRate: 0.055,
-    amortYears: 25
-  };
+  const tr = 1.25;       // <-- example technical ratio
+  const kva = 500;       // <-- example electrical capacity
 
   // -----------------------------
-  // 6. Valuation Inputs
-  // -----------------------------
-  const valuation = {
-    capRate: 0.075,
-    discountRate: 0.10,
-    exitCapRate: 0.08
-  };
-
-  // -----------------------------
-  // 7. NOI Calculation
+  // 6. NOI Calculation
   // -----------------------------
   const effectiveGrossIncome =
     rent.annual * (1 - vacancy.physical - vacancy.creditLoss) +
@@ -82,18 +60,19 @@ export function buildBaseModel() {
   const noi = effectiveGrossIncome - operatingExpenses;
 
   // -----------------------------
-  // 8. Return the full base model
+  // 7. Return the full base model
   // -----------------------------
   return {
     rent,
     otherIncome,
     vacancy,
     expenses,
-    capex,
-    financing,
-    valuation,
+    capex,        // numeric
+    tr,           // numeric
+    kva,          // numeric
     effectiveGrossIncome,
     operatingExpenses,
     noi
   };
 }
+
