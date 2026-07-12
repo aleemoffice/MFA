@@ -1,35 +1,42 @@
-// ===============================
-// Sensitivity Lab – UI Controller
-// ===============================
+// ==========================================
+// Sensitivity Lab – Main UI Loader
+// ==========================================
 
-// Import tab logic module
+// Tab switching controller
 import { initSensitivityTabs } from "./ui/ui.sensitivityTabs.js";
 
-// Import Sensitivity Lab engines
-import { runDrivers } from "./engine/engine.drivers.js";
-import { runMatrix } from "./engine/engine.matrix.js";
-import { runCharts } from "./engine/engine.charts.js";
-import { runVE } from "./engine/engine.ve.js";
-import { runMonteCarlo } from "./engine/engine.mc.js";
-import { runRecommendations } from "./engine/engine.reco.js";
+// Sensitivity modules
+import { loadSensitivityDrivers } from "./ui/ui.sensitivityDrivers.js";
+import { loadSensitivityMatrix } from "./ui/ui.sensitivityMatrix.js";
+import { loadSensitivityCharts } from "./ui/ui.sensitivityCharts.js";
+import { loadSensitivityMonteCarlo } from "./ui/ui.sensitivityMonteCarlo.js";
+import { loadSensitivityRecommendations } from "./ui/ui.sensitivityRecommendations.js";
+import { loadSensitivityVE } from "./ui/ui.sensitivityVE.js";
+import { loadSensitivityPro } from "./ui/ui.sensitivityPro.js";
 
-// ===============================
-// Initialize everything
-// ===============================
+// ==========================================
+// Initialize Sensitivity Lab
+// ==========================================
 
 window.addEventListener("DOMContentLoaded", () => {
 
+  console.log("ui.js LOADED");
+
   // Initialize tab switching
   initSensitivityTabs();
+  console.log("Tabs initialized");
 
-  // Run each module once the page loads
+  // Load each sensitivity module
   try {
-    runDrivers();
-    runMatrix();
-    runCharts();
-    runVE();
-    runMonteCarlo();
-    runRecommendations();
+    loadSensitivityDrivers();
+    loadSensitivityMatrix();
+    loadSensitivityCharts();
+    loadSensitivityMonteCarlo();
+    loadSensitivityRecommendations();
+    loadSensitivityVE();
+    loadSensitivityPro();
+
+    console.log("All sensitivity modules loaded");
   } catch (err) {
     console.error("Sensitivity Lab initialization error:", err);
   }
